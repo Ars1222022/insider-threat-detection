@@ -1,0 +1,27 @@
+# Hemligheter (ladda ALDRIG upp!)
+*.txt
+secrets*
+*password*
+*api*
+*key*
+*slack*
+*groq*
+
+# Temporära filer
+__pycache__/
+*.pyc
+*.pyo
+.DS_Store
+Thumbs.db
+*.tmp
+
+# Databricks
+dbutils/
+secrets/
+
+# Manifest-fil (behövs inte)
+manifest.mf
+
+# Stora mediafiler (valfritt – kommentera bort om du vill ha med dem)
+# *.mp4
+# *.m4a
