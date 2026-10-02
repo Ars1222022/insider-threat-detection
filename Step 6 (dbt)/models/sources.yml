@@ -1,0 +1,67 @@
+# =============================================
+# SOURCES: Var dbt hittar rådatan i Snowflake
+# =============================================
+# Syfte: Berätta för dbt VAR rådatan ligger.
+#        Sedan kan dbt-modellerna hämta den med
+#        {{ source('snowflake', 'RAW_ACCESS_LOGS') }} istället för att
+#        skriva databasnamnet rakt ut i SQL-koden.
+#
+# Varför behövs det?
+# - Skriver du "FROM RAW_ACCESS_LOGS" rakt ut i SQL måste du ändra på
+#   flera ställen om du senare byter databas eller schema.
+# - Med source() finns namnet på ETT ställe - och dbt ser dessutom
+#   beroendet mellan rådatan och dina modeller.
+#
+# Struktur enligt dbt-dokumentationen:
+#   version: 2            <- obligatoriskt (dbt läser första raden)
+#   sources:              <- lista av alla källor
+#     - name: snowflake   <- namnet du skriver i {{ source(...) }}
+#       database / schema <- var i Snowflake tabellen ligger
+#       tables:           <- vilka tabeller som är källor
+#         - name: <tabellnamn>
+#           columns:      <- (valfritt) dokumenterar kolumnerna
+#
+# OBS: Filen ska ligga i models/ i dbt-projektet.
+# =============================================
+
+version: 2
+
+sources:
+  - name: snowflake
+    description: "Snowflake-databasen där vår rådata finns"
+    database: INSIDER_THREAT_DB
+    schema: PUBLIC
+    tables:
+      - name: RAW_ACCESS_LOGS
+        description: "Rådata från Medical Internal Attack Detection dataset (4 000 rader)"
+        columns:
+          - name: attack_type
+            description: "Målvariabel - typ av insiderhot (eller 'normal')"
+          - name: num_failed_logins
+            description: "Antal misslyckade inloggningsförsök"
+          - name: flag
+            description: "Statusflagga (SF=normal, REJ=avvisad, S0=fel)"
+          - name: protocol_type
+            description: "Protokoll som användes (t.ex. EHR, PACS, HL7_API)"
+          - name: service
+            description: "Tjänst som användes (t.ex. patient_records, billing)"
+          - name: root_shell
+            description: "Root-åtkomst (1=ja, 0=nej)"
+          - name: su_attempted
+            description: "Privilegieeskaleringsförsök (1=ja, 0=nej)"
+          - name: num_access_files
+            description: "Antal åtkomster till patientjournaler/filer"
+          - name: num_file_creations
+            description: "Antal skapade filer"
+          - name: src_bytes
+            description: "Skickad data i bytes"
+          - name: dst_bytes
+            description: "Mottagen data i bytes"
+          - name: duration
+            description: "Sessionens längd i sekunder"
+          - name: same_srv_rate
+            description: "Andel åtkomst till samma tjänst (0-1)"
+          - name: diff_srv_rate
+            description: "Andel åtkomst till olika tjänster (0-1)"
+          - name: logged_in
+            description: "Inloggningsstatus (1=inloggad, 0=inte)"

@@ -1,0 +1,56 @@
+# Hemligheter (ladda ALDRIG upp!)
+*.txt
+secrets*
+*password*
+*api*
+*key*
+*slack*
+*groq*
+
+# Temporära filer
+__pycache__/
+*.pyc
+*.pyo
+.DS_Store
+Thumbs.db
+*.tmp
+
+# Databricks
+dbutils/
+secrets/
+
+# Manifest-fil (behövs inte)
+manifest.mf
+
+# ---------------------------------------------
+# Projektets EGNA utdata (genereras vid körning)
+# ---------------------------------------------
+# Notebooken skapar dessa filer varje gång du kör den. De ska inte
+# sparas i git - annars fylls repot med kopior av samma resultat.
+#
+# OBS: Skriv förklaringen på en EGEN rad. Text efter ett mönster på
+# samma rad ("*.csv  # kommentar") fungerar inte - git läser allt
+# efter # som en avkommentar och mönstret blir ogiltigt.
+
+# Prestandahistorik (ny fil skapas vid varje körning av steg 12)
+model_performance_history*.csv
+# Exporterade modellpaket (steg 14)
+model_backup_*.zip
+# Instruktioner som följer med modellpaketet (steg 14)
+README_BACKUP.txt
+# Scaler i rotmappen (skapas av joblib.dump i steg 10/11/12)
+scaler.pkl
+# Modell i rotmappen
+random_forest_model.pkl
+
+# MLflow sparar lokalt om man kör utanför Databricks
+mlruns/
+
+# Jupyter/VS Code
+.ipynb_checkpoints/
+.vscode/
+.idea/
+
+# Stora mediafiler (valfritt – kommentera bort om du vill ha med dem)
+# *.mp4
+# *.m4a
